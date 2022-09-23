@@ -5,6 +5,7 @@ import 'package:simple_weather/data/remote_data_sources/weather_remote_data_sour
 import 'package:simple_weather/domain/models/weather_model.dart';
 import 'package:simple_weather/domain/repositories/weather_repository.dart';
 import 'package:simple_weather/features/home/cubit/home_cubit.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -46,10 +47,8 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (weatherModel != null)
-                      _DisplayWeatherWidget(
-                        weatherModel: weatherModel,
-                      ),
-                    _SearchWidget(),
+                      _DisplayWeatherWidget(weatherModel: weatherModel),
+                    _SearchWidget()
                   ],
                 );
               }),
@@ -73,19 +72,64 @@ class _DisplayWeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            Text(
-              weatherModel.temperature.toString(),
-              style: Theme.of(context).textTheme.headline1,
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage("https:${weatherModel.icon.toString()}"),
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 60),
-            Text(
-              weatherModel.city,
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            const SizedBox(height: 60),
-          ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    weatherModel.temperature.toString(),
+                    style: const TextStyle(
+                      fontSize: 82,
+                    ),
+                  ),
+                  const Text(
+                    '°C',
+                    style: TextStyle(
+                      fontSize: 82,
+                      color: Colors.deepOrange,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                weatherModel.condition,
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                weatherModel.city,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    'Local Time :',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    weatherModel.localtime,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
+            ],
+          ),
         );
       },
     );
