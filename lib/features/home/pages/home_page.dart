@@ -5,7 +5,6 @@ import 'package:simple_weather/data/remote_data_sources/weather_remote_data_sour
 import 'package:simple_weather/domain/models/weather_model.dart';
 import 'package:simple_weather/domain/repositories/weather_repository.dart';
 import 'package:simple_weather/features/home/cubit/home_cubit.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -73,6 +72,7 @@ class _DisplayWeatherWidget extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Container(
+          height: 350,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: NetworkImage("https:${weatherModel.icon.toString()}"),
@@ -123,7 +123,7 @@ class _DisplayWeatherWidget extends StatelessWidget {
                   ),
                   Text(
                     weatherModel.localtime,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
